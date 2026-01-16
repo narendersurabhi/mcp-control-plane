@@ -22,7 +22,7 @@ def _imports() -> tuple[Any, ...]:
     )
 
 
-@pytest.mark.asyncio # type: ignore[misc]
+@pytest.mark.asyncio  # type: ignore[misc]
 async def test_http_auth_and_policy_allows_health_check() -> None:
     (
         default_audit_adapter,
@@ -51,7 +51,7 @@ async def test_http_auth_and_policy_allows_health_check() -> None:
     assert body["result"]["status"] == "ok"
 
 
-@pytest.mark.asyncio    # type: ignore[misc]
+@pytest.mark.asyncio  # type: ignore[misc]
 async def test_http_auth_denied() -> None:
     (
         default_audit_adapter,
@@ -76,7 +76,7 @@ async def test_http_auth_denied() -> None:
     assert body["error"]["message"] == "unauthorized"
 
 
-@pytest.mark.asyncio    # type: ignore[misc]
+@pytest.mark.asyncio  # type: ignore[misc]
 async def test_http_policy_denied() -> None:
     (
         default_audit_adapter,

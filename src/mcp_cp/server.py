@@ -99,22 +99,22 @@ def create_server(kb_adapter: KBAdapter, audit_adapter: AuditAdapter, version: s
     async def health_check() -> dict[str, Any]:
         return handle_health_check(version).model_dump()  # type: ignore[no-any-return]
 
-    @server.tool("kb.search") # type: ignore[misc]
+    @server.tool("kb.search")  # type: ignore[misc]
     async def kb_search(query: str, top_k: int = 5) -> dict[str, Any]:
         result = handle_kb_search(kb_adapter, KBSearchInput(query=query, top_k=top_k))
         return result.model_dump()  # type: ignore[no-any-return]
 
-    @server.tool("audit.query") # type: ignore[misc]
+    @server.tool("audit.query")  # type: ignore[misc]
     async def audit_query(q: str, limit: int = 50) -> dict[str, Any]:
         result = handle_audit_query(audit_adapter, AuditQueryInput(q=q, limit=limit))
         return result.model_dump()  # type: ignore[no-any-return]
 
-    @server.resource("kb://documents/{doc_id}") # type: ignore[misc]
+    @server.resource("kb://documents/{doc_id}")  # type: ignore[misc]
     async def kb_document(doc_id: str) -> dict[str, Any]:
         result = handle_kb_resource(kb_adapter, doc_id)
         return result.model_dump()  # type: ignore[no-any-return]
 
-    @server.prompt("incident_triage")   # type: ignore[misc]
+    @server.prompt("incident_triage")  # type: ignore[misc]
     async def incident_triage() -> str:
         return (
             "You are an incident triage assistant. First call health.check. "
