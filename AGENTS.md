@@ -10,3 +10,4 @@
 - Sorted test imports to satisfy ruff linting.
 - Tweaked server decorator ignores and stdio initialization typing to satisfy mypy.
 - Re-applied server casts for mypy and ran black formatting sweep.
+- Applied ruff formatting to align code style with lint expectations.

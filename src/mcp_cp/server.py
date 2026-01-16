@@ -48,9 +48,7 @@ def _request_id_from_context(context: Any | None) -> str:
     return getattr(context, "request_id", str(uuid4()))
 
 
-def handle_health_check(
-    version: str, context: RequestContext | None = None
-) -> HealthCheckResponse:
+def handle_health_check(version: str, context: RequestContext | None = None) -> HealthCheckResponse:
     request_id = _request_id_from_context(context)
     logger = get_logger(request_id, "health.check")
     with request_span("tool", "health.check"):
@@ -94,9 +92,7 @@ def handle_kb_resource(
         return adapter.get_document(doc_id)
 
 
-def create_server(
-    kb_adapter: KBAdapter, audit_adapter: AuditAdapter, version: str
-) -> Server:
+def create_server(kb_adapter: KBAdapter, audit_adapter: AuditAdapter, version: str) -> Server:
     server = Server("mcp-control-plane")
 
     @server.tool("health.check")  # type: ignore[untyped-decorator]
@@ -134,9 +130,7 @@ class AuthPolicyMiddleware:
         self.token = token
         self.policy = policy
 
-    async def __call__(
-        self, scope: dict[str, Any], receive: Receive, send: Send
-    ) -> None:
+    async def __call__(self, scope: dict[str, Any], receive: Receive, send: Send) -> None:
         if scope.get("type") != "http":
             await self.app(scope, receive, send)
             return
@@ -147,10 +141,7 @@ class AuthPolicyMiddleware:
         method = request.get("method")
         params = request.get("params", {})
 
-        headers = {
-            k.decode("latin-1"): v.decode("latin-1")
-            for k, v in scope.get("headers", [])
-        }
+        headers = {k.decode("latin-1"): v.decode("latin-1") for k, v in scope.get("headers", [])}
         auth_header = headers.get("authorization", "")
         scope_header = headers.get("x-mcp-scope", "")
         if not self._authorized(auth_header):
@@ -249,9 +240,7 @@ async def run_http(server: Server) -> None:
     policy = ScopePolicy()
     app = create_http_app(server, token=token, policy=policy)
     http_server = StreamableHTTPServer(server, app=app)
-    await http_server.serve(
-        host="0.0.0.0", port=int(os.getenv("MCP_HTTP_PORT", "8080"))
-    )
+    await http_server.serve(host="0.0.0.0", port=int(os.getenv("MCP_HTTP_PORT", "8080")))
 
 
 def main() -> None:
