@@ -1,0 +1,31 @@
+replicaCount: 1
+
+image:
+  repository: mcp-control-plane
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: false
+  className: ""
+  hosts: []
+  tls: []
+
+resources: {}
+
+hpa:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+
+env:
+  MCP_MODE: http
+  MCP_HTTP_PORT: "8080"
+  MCP_METRICS_PORT: "8001"
+  MCP_BEARER_TOKEN: ""

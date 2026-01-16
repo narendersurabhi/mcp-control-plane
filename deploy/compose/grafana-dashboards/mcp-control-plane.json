@@ -1,0 +1,27 @@
+{
+  "title": "MCP Control Plane",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Request Latency (ms)",
+      "targets": [
+        {
+          "expr": "request_latency_ms_bucket",
+          "legendFormat": "{{tool}}"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Request Count",
+      "targets": [
+        {
+          "expr": "request_count",
+          "legendFormat": "{{tool}}"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 36,
+  "version": 1
+}
