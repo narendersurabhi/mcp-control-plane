@@ -1,5 +1,6 @@
-import pytest
 from typing import Any
+
+import pytest
 
 pytest.importorskip("pytest_asyncio")
 httpx = pytest.importorskip("httpx")
