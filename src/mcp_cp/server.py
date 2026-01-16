@@ -220,7 +220,7 @@ def create_http_app(server: Server, token: str, policy: ScopePolicy) -> ASGIApp:
 
 async def run_stdio(server: Server) -> None:
     async with stdio_server() as (read, write):
-        await server.run(read, write)
+        await server.run(read, write, initialization_options={})
 
 
 async def run_http(server: Server) -> None:

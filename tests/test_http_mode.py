@@ -1,10 +1,11 @@
 import pytest
+from typing import Any
 
 pytest.importorskip("pytest_asyncio")
 httpx = pytest.importorskip("httpx")
 
 
-def _imports() -> tuple[object, ...]:
+def _imports() -> tuple[Any, ...]:
     pytest.importorskip("pydantic")
     pytest.importorskip("mcp")
     from mcp_cp.adapters import default_audit_adapter, default_kb_adapter

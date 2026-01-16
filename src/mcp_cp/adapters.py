@@ -5,6 +5,7 @@ from typing import Protocol
 
 from mcp_cp.models import (
     AuditQueryResponse,
+    AuditQueryRow,
     DocumentMetadata,
     DocumentResource,
     KBSearchResponse,
@@ -52,7 +53,7 @@ class InMemoryAuditAdapter:
 
     def query(self, q: str, limit: int) -> AuditQueryResponse:
         filtered = [row for row in self.rows if q.lower() in str(row).lower()]
-        return AuditQueryResponse(rows=[{"fields": row} for row in filtered[:limit]])
+        return AuditQueryResponse(rows=[AuditQueryRow(fields=row) for row in filtered[:limit]])
 
 
 def default_kb_adapter() -> InMemoryKBAdapter:
