@@ -5,7 +5,7 @@ import json
 import os
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
-from typing import Any, cast
+from typing import Any
 from uuid import uuid4
 
 from mcp.server import Server
@@ -97,22 +97,22 @@ def create_server(kb_adapter: KBAdapter, audit_adapter: AuditAdapter, version: s
 
     @server.tool("health.check")  # type: ignore[untyped-decorator]
     async def health_check() -> dict[str, Any]:
-        return cast(dict[str, Any], handle_health_check(version).model_dump())
+        return handle_health_check(version).model_dump()  # type: ignore[no-any-return]
 
     @server.tool("kb.search")  # type: ignore[untyped-decorator]
     async def kb_search(query: str, top_k: int = 5) -> dict[str, Any]:
         result = handle_kb_search(kb_adapter, KBSearchInput(query=query, top_k=top_k))
-        return cast(dict[str, Any], result.model_dump())
+        return result.model_dump()  # type: ignore[no-any-return]
 
     @server.tool("audit.query")  # type: ignore[untyped-decorator]
     async def audit_query(q: str, limit: int = 50) -> dict[str, Any]:
         result = handle_audit_query(audit_adapter, AuditQueryInput(q=q, limit=limit))
-        return cast(dict[str, Any], result.model_dump())
+        return result.model_dump()  # type: ignore[no-any-return]
 
     @server.resource("kb://documents/{doc_id}")  # type: ignore[untyped-decorator]
     async def kb_document(doc_id: str) -> dict[str, Any]:
         result = handle_kb_resource(kb_adapter, doc_id)
-        return cast(dict[str, Any], result.model_dump())
+        return result.model_dump()  # type: ignore[no-any-return]
 
     @server.prompt("incident_triage")  # type: ignore[untyped-decorator]
     async def incident_triage() -> str:

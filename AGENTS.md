@@ -13,3 +13,4 @@
 - Applied ruff formatting to align code style with lint expectations.
 - Updated MCP server decorator ignores to satisfy mypy attr-defined checks.
 - Restored handler return casts to resolve mypy no-any-return errors.
+- Adjusted MCP server ignore annotations to satisfy mypy no-any-return checks.
