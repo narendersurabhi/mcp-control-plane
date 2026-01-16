@@ -7,7 +7,12 @@ def _imports() -> tuple[Any, ...]:
     pytest.importorskip("pydantic")
     pytest.importorskip("mcp")
     from mcp_cp.adapters import InMemoryAuditAdapter, InMemoryKBAdapter
-    from mcp_cp.models import AuditQueryInput, DocumentMetadata, DocumentResource, KBSearchInput
+    from mcp_cp.models import (
+        AuditQueryInput,
+        DocumentMetadata,
+        DocumentResource,
+        KBSearchInput,
+    )
     from mcp_cp.server import (
         RequestContext,
         handle_audit_query,

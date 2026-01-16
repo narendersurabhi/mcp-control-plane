@@ -13,7 +13,13 @@ def _imports() -> tuple[Any, ...]:
     from mcp_cp.policy import ScopePolicy
     from mcp_cp.server import create_http_app, create_server
 
-    return default_audit_adapter, default_kb_adapter, ScopePolicy, create_http_app, create_server
+    return (
+        default_audit_adapter,
+        default_kb_adapter,
+        ScopePolicy,
+        create_http_app,
+        create_server,
+    )
 
 
 @pytest.mark.asyncio
@@ -36,7 +42,9 @@ async def test_http_auth_and_policy_allows_health_check() -> None:
             "params": {"name": "health.check", "arguments": {}},
         }
         response = await client.post(
-            "/", headers={"Authorization": "Bearer token", "X-MCP-Scope": "read"}, json=payload
+            "/",
+            headers={"Authorization": "Bearer token", "X-MCP-Scope": "read"},
+            json=payload,
         )
     assert response.status_code == 200
     body = response.json()
@@ -88,7 +96,9 @@ async def test_http_policy_denied() -> None:
             "params": {"name": "audit.query", "arguments": {"q": "foo"}},
         }
         response = await client.post(
-            "/", headers={"Authorization": "Bearer token", "X-MCP-Scope": "read"}, json=payload
+            "/",
+            headers={"Authorization": "Bearer token", "X-MCP-Scope": "read"},
+            json=payload,
         )
     assert response.status_code == 403
     body = response.json()

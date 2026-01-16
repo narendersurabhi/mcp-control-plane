@@ -24,9 +24,13 @@ class ContextLoggerAdapter(logging.LoggerAdapter[logging.Logger]):
         return json.dumps(payload), kwargs
 
 
-def get_logger(request_id: str, tool_name: str) -> logging.LoggerAdapter[logging.Logger]:
+def get_logger(
+    request_id: str, tool_name: str
+) -> logging.LoggerAdapter[logging.Logger]:
     base = logging.getLogger("mcp_cp")
-    return ContextLoggerAdapter(base, {"request_id": request_id, "tool_name": tool_name})
+    return ContextLoggerAdapter(
+        base, {"request_id": request_id, "tool_name": tool_name}
+    )
 
 
 def configure_logging() -> None:

@@ -8,3 +8,5 @@
 - Added test helpers to allow running tests without installed dependencies in constrained environments.
 - Resolved mypy complaints in adapters, server decorators, and test import typing.
 - Sorted test imports to satisfy ruff linting.
+- Tweaked server decorator ignores and stdio initialization typing to satisfy mypy.
+- Re-applied server casts for mypy and ran black formatting sweep.

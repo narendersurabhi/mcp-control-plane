@@ -22,4 +22,6 @@ class ScopePolicy:
         allowed_actions = self.scope_map.get(scope, set())
         if action in allowed_actions:
             return PolicyDecision(allowed=True)
-        return PolicyDecision(allowed=False, reason=f"scope '{scope}' does not allow '{action}'")
+        return PolicyDecision(
+            allowed=False, reason=f"scope '{scope}' does not allow '{action}'"
+        )

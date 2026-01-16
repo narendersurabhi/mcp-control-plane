@@ -30,7 +30,10 @@ class InMemoryKBAdapter:
     def search(self, query: str, top_k: int) -> KBSearchResponse:
         results = []
         for doc in self.documents.values():
-            if query.lower() in doc.metadata.title.lower() or query.lower() in doc.content.lower():
+            if (
+                query.lower() in doc.metadata.title.lower()
+                or query.lower() in doc.content.lower()
+            ):
                 results.append(
                     KBSearchResult(
                         id=doc.metadata.id,
@@ -53,7 +56,9 @@ class InMemoryAuditAdapter:
 
     def query(self, q: str, limit: int) -> AuditQueryResponse:
         filtered = [row for row in self.rows if q.lower() in str(row).lower()]
-        return AuditQueryResponse(rows=[AuditQueryRow(fields=row) for row in filtered[:limit]])
+        return AuditQueryResponse(
+            rows=[AuditQueryRow(fields=row) for row in filtered[:limit]]
+        )
 
 
 def default_kb_adapter() -> InMemoryKBAdapter:
