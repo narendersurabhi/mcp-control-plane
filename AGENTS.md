@@ -11,3 +11,5 @@
 - Tweaked server decorator ignores and stdio initialization typing to satisfy mypy.
 - Re-applied server casts for mypy and ran black formatting sweep.
 - Applied ruff formatting to align code style with lint expectations.
+- Updated MCP server decorator ignores to satisfy mypy attr-defined checks.
+- Restored handler return casts to resolve mypy no-any-return errors.
