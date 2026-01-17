@@ -1,0 +1,5 @@
+apiVersion: v2
+name: mcp-control-plane
+description: MCP control plane server
+version: 0.1.0
+appVersion: "0.1.0"

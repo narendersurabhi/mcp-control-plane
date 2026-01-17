@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mcp-control-plane.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "mcp-control-plane.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "mcp-control-plane.name" . }}
+    spec:
+      containers:
+        - name: mcp-control-plane
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: MCP_MODE
+              value: {{ .Values.env.MCP_MODE | quote }}
+            - name: MCP_HTTP_PORT
+              value: {{ .Values.env.MCP_HTTP_PORT | quote }}
+            - name: MCP_METRICS_PORT
+              value: {{ .Values.env.MCP_METRICS_PORT | quote }}
+            - name: MCP_BEARER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mcp-control-plane.fullname" . }}
+                  key: MCP_BEARER_TOKEN
+          ports:
+            - containerPort: 8080
+            - containerPort: 8001
+          resources:
+{{ toYaml .Values.resources | indent 12 }}

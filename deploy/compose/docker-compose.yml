@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  mcp-control-plane:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile
+    environment:
+      MCP_MODE: http
+      MCP_BEARER_TOKEN: devtoken
+      MCP_HTTP_PORT: 8080
+      MCP_METRICS_PORT: 8001
+    ports:
+      - "8080:8080"
+      - "8001:8001"
+    depends_on:
+      - otel-collector
+
+  otel-collector:
+    image: otel/opentelemetry-collector:0.97.0
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "4317:4317"
+
+  prometheus:
+    image: prom/prometheus:v2.52.0
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:10.4.2
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - ./grafana-dashboards:/var/lib/grafana/dashboards
+    ports:
+      - "3000:3000"
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.57
+    ports:
+      - "16686:16686"
+      - "14250:14250"
